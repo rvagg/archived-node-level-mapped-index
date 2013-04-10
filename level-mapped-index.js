@@ -2,13 +2,15 @@ const mapReduce       = require('map-reduce')
     , xtend           = require('xtend')
     , transformStream = require('transform-stream')
 
+    , mapReducePrefix = 'mi/'
+
 var register = function (db, indexName, indexer) {
       var emit = function (id, value, emit) {
             indexer(id, value, function (value) {
               emit(value, id)
             })
           }
-        , mapper = mapReduce(db, indexName, emit)
+        , mapper = mapReduce(db, mapReducePrefix + indexName, emit)
 
       if (!db.mappedIndexes)
         db.mappedIndexes = {}
