@@ -12,9 +12,7 @@ var register = function (db, indexName, indexer) {
           }
         , mapper = mapReduce(db, mapReducePrefix + indexName, emit)
 
-      if (!db.mappedIndexes)
-        db.mappedIndexes = {}
-      db.mappedIndexes[indexName] = mapper
+      db._mappedIndexes[indexName] = mapper
       return db
     }
 
@@ -22,7 +20,7 @@ var register = function (db, indexName, indexer) {
       if (!options)
         options = {}
       options = xtend(options || {}, { range: [ key, '' ] })
-      var stream = db.mappedIndexes[indexName]
+      var stream = db._mappedIndexes[indexName]
         .createReadStream(options)
         .pipe(transformStream(function (data, finish) {
           db.get(data.value, function (err, value) {
@@ -53,9 +51,13 @@ var register = function (db, indexName, indexer) {
     }
 
   , setup = function (db) {
+      if (db._mappedIndexes) return
+
+      db._mappedIndexes      = {}
       db.registerIndex       = register.bind(null, db)
       db.createIndexedStream = indexedStream.bind(null, db)
       db.getBy               = getBy.bind(null, db)
+
       return db
     }
 
