@@ -17,6 +17,8 @@ var register = function (db, indexName, indexer) {
     }
 
   , indexedStream = function (db, indexName, key, options) {
+      if (!db._mappedIndexes[indexName])
+        throw new Error('No such index: ' + indexName)
       if (!options)
         options = {}
       options = xtend(options || {}, { range: [ key, '' ] })
