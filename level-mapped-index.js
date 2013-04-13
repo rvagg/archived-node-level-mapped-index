@@ -21,7 +21,7 @@ var register = function (db, indexName, indexer) {
         throw new Error('No such index: ' + indexName)
       if (!options)
         options = {}
-      options = xtend(options || {}, { range: [ key, '' ] })
+      options = xtend(options || {}, { range: [ String(key), '' ] })
       var stream = db._mappedIndexes[indexName]
         .createReadStream(options)
         .pipe(transformStream(function (data, finish) {
