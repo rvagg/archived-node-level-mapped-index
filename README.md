@@ -1,5 +1,4 @@
-# Mapped Index for LevelDB [![Build
-Status](https://secure.travis-ci.org/rvagg/node-level-mapped-index.png)](http://travis-ci.org/rvagg/node-level-mapped-index)
+# Mapped Index for LevelDB [![Build Status](https://secure.travis-ci.org/rvagg/node-level-mapped-index.png)](http://travis-ci.org/rvagg/node-level-mapped-index)
 
 ![LevelDB Logo](https://twimg0-a.akamaihd.net/profile_images/3360574989/92fc472928b444980408147e5e5db2fa_bigger.png)
 
@@ -56,20 +55,21 @@ db.put('foo4', JSON.stringify({ four  : 'FOUR'  , id : '4' , boom : 'fizzle...' 
 *Map Reduce* processes these entries and passes them each to our index functions that we registered earlier. Our index references are stored in the same database, namespaced, so that they can be efficiently retrieved when required:
 
 ```js
-db.getBy('id', '1', function (err, values, keys) {
-  // values will equal: [ '{"one":"ONE","key":"1"}' ]
-  // keys   will equal: [ 'foo1' ]
+db.getBy('id', '1', function (err, data) {
+  // `data` will equal:
+  //    [{ key: 'foo1', value: '{"one":"ONE","key":"1"}' }]
 })
 
-db.getBy('bleh', 'bam!', function (err, values, keys) {
-  // values will equal:
-  // [   '{"two":"TWO","key":"2","boom":"bam!"}'
-  //   , '{"three":"THREE","key":"3","boom":"bam!"}' ]
-  // keys   will equal: [ 'foo2', 'foo3' ]
+db.getBy('bleh', 'bam!', function (err, data) {
+  // `data` will equal:
+  // [
+  //     { key: 'foo2', value: '{"two":"TWO","key":"2","boom":"bam!"}' }
+  //   , { key: 'foo3', value: '{"three":"THREE","key":"3","boom":"bam!"}' }
+  // ]
 })
 ```
 
-Our LevelUP instance has been augmented with a `getBy()` method that takes 3 arguments: the index name, the value on that index we are looking for and a callback function. Our callback will receive up to three arguments, an error, an array of the values found for that indexed value and an array of the corresponding keys (the keys are listed last and in a separate array as they are generally less likely to be required so that argument can be dropped by client code). You will receive empty arrays where your indexed value finds no corresponding entries.
+Our LevelUP instance has been augmented with a `getBy()` method that takes 3 arguments: the index name, the value on that index we are looking for and a callback function. Our callback will receive two arguments, an error and an array of objects containing `'key'` and `'value'` properties for each indexed entry. You will receive empty arrays where your indexed value finds no corresponding entries.
 
 It is **important to note** that your entries are not stored in duplicate, only the primary keys are stored for each index entry so an additional look-up is required to fetch each complete entry.
 
