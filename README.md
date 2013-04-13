@@ -1,4 +1,5 @@
-# Mapped Index for LevelDB [![Build Status](https://secure.travis-ci.org/rvagg/level-mapped-index.png)](http://travis-ci.org/rvagg/level-mapped-index)
+# Mapped Index for LevelDB [![Build
+Status](https://secure.travis-ci.org/rvagg/node-level-mapped-index.png)](http://travis-ci.org/rvagg/node-level-mapped-index)
 
 ![LevelDB Logo](https://twimg0-a.akamaihd.net/profile_images/3360574989/92fc472928b444980408147e5e5db2fa_bigger.png)
 

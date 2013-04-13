@@ -35,18 +35,17 @@ var register = function (db, indexName, indexer) {
     }
 
   , getBy = function (db, indexName, key, callback) {
-      var keys = [], values = []
+      var data = []
       db.createIndexedStream(indexName, key)
-        .on('data', function (data) {
-          keys.push(data.key)
-          values.push(data.value)
+        .on('data', function (_data) {
+          data.push(_data)
         })
         .on('error', function (err) {
           callback(err)
           callback = null
         })
         .on('close', function () {
-          callback && callback(null, values, keys)
+          callback && callback(null, data)
         })
     }
 
