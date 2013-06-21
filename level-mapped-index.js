@@ -5,10 +5,10 @@ const mapReduce       = require('map-reduce')
     , mapReducePrefix = 'mi/'
 
 var register = function (db, mapDb, indexName, indexer) {
-      if(typeof indexName == 'function'){
+      if (typeof indexName == 'function') {
         indexer = indexName
 
-        if(typeof mapDb == 'string'){
+        if (typeof mapDb == 'string') {
           indexName = mapDb
           mapDb = mapReducePrefix + mapDb
         }
