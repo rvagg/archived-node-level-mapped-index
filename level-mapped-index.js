@@ -11,8 +11,7 @@ var register = function (db, mapDb, indexName, indexer) {
         if (typeof mapDb == 'string') {
           indexName = mapDb
           mapDb = mapReducePrefix + mapDb
-        }
-        else
+        } else
           indexName = mapDb._prefix
       }
 
