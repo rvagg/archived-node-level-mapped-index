@@ -4,13 +4,23 @@ const mapReduce       = require('map-reduce')
 
     , mapReducePrefix = 'mi/'
 
-var register = function (db, indexName, indexer) {
+var register = function (db, mapDb, indexName, indexer) {
+      if (typeof indexName == 'function') {
+        indexer = indexName
+
+        if (typeof mapDb == 'string') {
+          indexName = mapDb
+          mapDb = mapReducePrefix + mapDb
+        } else
+          indexName = mapDb._prefix
+      }
+
       var emit = function (id, value, emit) {
             indexer(id, value, function (value) {
               emit(value, id)
             })
           }
-        , mapper = mapReduce(db, mapReducePrefix + indexName, emit)
+        , mapper = mapReduce(db, mapDb, emit)
 
       db._mappedIndexes[indexName] = mapper
       return db
