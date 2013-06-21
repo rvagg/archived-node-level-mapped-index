@@ -1,5 +1,5 @@
 const test        = require('tap').test
-    , levelup     = require('levelup')
+    , levelup     = require('level')
     , subLevel    = require('level-sublevel')
     , rimraf      = require('rimraf')
     , after       = require('after')

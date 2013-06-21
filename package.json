@@ -13,7 +13,7 @@
       , "url"              : "https://github.com/rvagg/node-level-mapped-index.git"
     }
   , "dependencies"     : {
-        "map-reduce"       : "~3.1.3"
+        "map-reduce"       : "~3.2.3"
       , "xtend"            : "~2.0.3"
       , "transform-stream" : "~0.2.2"
     }
@@ -21,11 +21,11 @@
     }
   , "devDependencies"  : {
         "tap"              : "*"
-      , "levelup"          : "~0.7.0"
-      , "level-sublevel"   : "~3.3.1"
-      , "rimraf"           : "~2.1.4"
-      , "after"            : "~0.7.0"
-      , "delayed"          : "~0.0.0"
+      , "level"            : "*"
+      , "level-sublevel"   : "*"
+      , "rimraf"           : "*"
+      , "after"            : "*"
+      , "delayed"          : "*"
     }
   , "scripts"          : {
         "test"             : "node ./test.js"
