@@ -21,7 +21,9 @@ function register (db, mapDb, indexName, indexer) {
     })
   }
 
-  db._mappedIndexes[indexName] = mapReduce(db, mapDb, emit)
+  var mapper = mapReduce(db, mapDb, emit)
+  db._mappedIndexes[indexName] = typeof mapDb == 'string' ?  mapper : mapDb
+
   return db
 }
 

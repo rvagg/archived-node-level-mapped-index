@@ -2,7 +2,7 @@
 
 ![LevelDB Logo](https://twimg0-a.akamaihd.net/profile_images/3360574989/92fc472928b444980408147e5e5db2fa_bigger.png)
 
-A simple and flexible indexer for LevelDB, built on [LevelUP](https://github.com/rvagg/node-levelup) and [Map Reduce](https://github.com/dominictarr/map-reduce/).
+A simple and flexible indexer for LevelDB, built on [LevelUP](https://github.com/rvagg/node-levelup) and [Map Reduce](https://github.com/dominictarr/map-reduce/); allowing asynchronous index calculation.	
 
 After initialising Mapped Index, your LevelUP instance will have some new methods that let you register new indexes and fetch values from them.
 
@@ -10,12 +10,12 @@ After initialising Mapped Index, your LevelUP instance will have some new method
 // requires levelup and level-sublevel packages
 const levelup     = require('levelup')
     , mappedIndex = require('level-mapped-index')
-    , subLevel    = require('level-sublevel')
+    , sublevel    = require('level-sublevel')
 
 levelup('/tmp/foo.db', function (err, db) {
 
   // set up our LevelUP instance
-  db = subLevel(db)
+  db = sublevel(db)
   db = mappedIndex(db)
 
   // register 2 indexes:
@@ -42,6 +42,8 @@ levelup('/tmp/foo.db', function (err, db) {
 ```
 
 In this example we're using the `registerIndex()` method to register two indexes. You must supply an index name (String) and a function that will parse and register individual entries for this index. Your function receives the key and the value of the entry and an `emit()` function. You call `emit()` with a single argument, the property for this entry that you are indexing on. The `emit()` function *does not need to be called* for each entry, only entries relevant to your index.
+
+Note that the register method has the signature: <b><code>registerIndex([ mapDb, ] indexName, indexFn)</code></b>. So you can provide your own custom *sublevel* or even a totally separate LevelUP instance to store the indexing data if that suits your needs (perhaps you're a little OCD about polluting your main store with map-reduce & index cruft?)
 
 Now we put some values into our database:
 
