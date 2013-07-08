@@ -90,9 +90,9 @@ db.createIndexedStream('id', '1')
     // ...
   })
 
-db.createIndexedStream('key', '1')
+db.createIndexedStream('bleh', 'bam!')
   .on('data', function (data) {
-    // this will be called twise, and data will equal:
+    // this will be called twice, and data will equal:
     // { key: 'foo2', value: '{"two":"TWO","key":"2","boom":"bam!"}' }
     // { key: 'foo3', value: '{"three":"THREE","key":"3","boom":"bam!"}' }
   })
