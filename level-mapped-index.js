@@ -1,6 +1,6 @@
 const mapReduce       = require('map-reduce')
     , xtend           = require('xtend')
-    , transformStream = require('transform-stream')
+    , through2        = require('through2')
 
     , mapReducePrefix = 'mi/'
 
@@ -38,10 +38,11 @@ function indexedStream (db, indexName, key, options) {
 
   var stream = db._mappedIndexes[indexName]
     .createReadStream(options)
-    .pipe(transformStream(function (data, finish) {
+    .pipe(through2({ objectMode: true }, function (data, enc, callback) {
       db.get(data.value, function (err, value) {
-        if (err) return finish()
-        finish(null, { key: data.value, value: value })
+        if (err)
+          return callback(err)
+        callback(null, { key: data.value, value: value })
       })
     }))
 
