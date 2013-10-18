@@ -19,7 +19,6 @@ function register (db, mapDb, indexName, indexer, reducer, initial) {
 
   function emit (id, value, _emit) {
     indexer(id, value, function(key, value2) {
-      _emit(key, id)
       _emit(key, value2);
     })
   }
