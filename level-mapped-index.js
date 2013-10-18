@@ -4,8 +4,10 @@ const mapReduce       = require('map-reduce')
 
     , mapReducePrefix = 'mi/'
 
-function register (db, mapDb, indexName, indexer) {
+function register (db, mapDb, indexName, indexer, reducer, initial) {
   if (typeof indexName == 'function') {
+    initial = reducer
+    reducer = indexer
     indexer = indexName
 
     if (typeof mapDb == 'string') {
@@ -16,12 +18,12 @@ function register (db, mapDb, indexName, indexer) {
   }
 
   function emit (id, value, _emit) {
-    indexer(id, value, function (value) {
-      _emit(value, id)
+    indexer(id, value, function(key, value2) {
+      _emit(key, value2);
     })
   }
 
-  var mapper = mapReduce(db, mapDb, emit)
+  var mapper = mapReduce(db, mapDb, emit, reducer, initial)
   db._mappedIndexes[indexName] = typeof mapDb == 'string' ?  mapper : mapDb
 
   return db
@@ -39,7 +41,9 @@ function indexedStream (db, indexName, key, options) {
   var stream = db._mappedIndexes[indexName]
     .createReadStream(options)
     .pipe(through2({ objectMode: true }, function (data, enc, callback) {
-      db.get(data.value, function (err, value) {
+      var arr = data.key.split('!'),
+          id = arr[arr.length - 1];
+      db.get(id, function (err, value) {
         if (err)
           return callback(err)
         callback(null, { key: data.value, value: value })
@@ -53,9 +57,13 @@ function indexedStream (db, indexName, key, options) {
   return stream
 }
 
-function getBy (db, indexName, key, callback) {
+function getBy (db, indexName, key, options, callback) {
+  if (typeof options == 'function') {
+    callback = options;
+    options = null;
+  }
   var data = []
-  db.createIndexedStream(indexName, key)
+  db.createIndexedStream(indexName, key, options)
     .on('data', function (_data) {
       data.push(_data)
     })
@@ -69,7 +77,7 @@ function getBy (db, indexName, key, callback) {
 }
 
 function setup (db) {
-  if (db._mappedIndexes) return
+  if (db._mappedIndexes) return db;
 
   db._mappedIndexes      = {}
   db.registerIndex       = register.bind(null, db)
