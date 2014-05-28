@@ -1,34 +1,38 @@
 {
-    "name"             : "level-mapped-index"
-  , "description"      : "Simple indexing for LevelUP"
-  , "version"          : "0.3.2"
-  , "homepage"         : "https://github.com/rvagg/node-level-mapped-index"
-  , "authors"          : [
-        "Rod Vagg <rod@vagg.org> (https://github.com/rvagg)"
-    ]
-  , "keywords"         : [ "leveldb", "levelup", "index", "indexing" ]
-  , "main"             : "./level-mapped-index.js"
-  , "repository"       : {
-        "type"             : "git"
-      , "url"              : "https://github.com/rvagg/node-level-mapped-index.git"
-    }
-  , "dependencies"     : {
-        "map-reduce"       : "~4.0.0"
-      , "xtend"            : "~2.1.1"
-      , "through2"         : "~0.2.1"
-    }
-  , "peerDependencies" : {
-    }
-  , "devDependencies"  : {
-        "tap"              : "*"
-      , "level"            : "*"
-      , "level-sublevel"   : "*"
-      , "rimraf"           : "*"
-      , "after"            : "*"
-      , "delayed"          : "*"
-    }
-  , "scripts"          : {
-        "test"             : "node ./test.js"
-    }
-  , "license"          : "MIT"
+  "name": "level-mapped-index",
+  "description": "Simple indexing for LevelUP",
+  "version": "0.4.0",
+  "homepage": "https://github.com/rvagg/node-level-mapped-index",
+  "authors": [
+    "Rod Vagg <rod@vagg.org> (https://github.com/rvagg)"
+  ],
+  "keywords": [
+    "leveldb",
+    "levelup",
+    "index",
+    "indexing"
+  ],
+  "main": "./level-mapped-index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rvagg/node-level-mapped-index.git"
+  },
+  "dependencies": {
+    "map-reduce": "~4.0.0",
+    "xtend": "~2.1.1",
+    "through2": "~0.2.1"
+  },
+  "peerDependencies": {},
+  "devDependencies": {
+    "tap": "*",
+    "level": "*",
+    "level-sublevel": "*",
+    "rimraf": "*",
+    "after": "*",
+    "delayed": "*"
+  },
+  "scripts": {
+    "test": "node ./test.js"
+  },
+  "license": "MIT"
 }
