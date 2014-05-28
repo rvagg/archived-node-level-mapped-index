@@ -2,7 +2,7 @@ const mapReduce       = require('map-reduce')
     , xtend           = require('xtend')
     , through2        = require('through2')
 
-    , mapReducePrefix = 'mi/'
+var mapReducePrefix = 'mi/'
 
 function register (db, mapDb, indexName, indexer) {
   if (typeof indexName == 'function') {
@@ -68,13 +68,18 @@ function getBy (db, indexName, key, callback) {
     })
 }
 
-function setup (db) {
+function setup (db, opts) {
   if (db._mappedIndexes) return
 
   db._mappedIndexes      = {}
   db.registerIndex       = register.bind(null, db)
   db.createIndexedStream = indexedStream.bind(null, db)
   db.getBy               = getBy.bind(null, db)
+
+  opts = opts || {}
+  if (opts.mapReducePrefix) {
+    mapReducePrefix = opts.mapReducePrefix
+  }
 
   return db
 }
