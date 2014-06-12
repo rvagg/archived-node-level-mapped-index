@@ -1,7 +1,7 @@
 {
   "name": "level-mapped-index",
   "description": "Simple indexing for LevelUP",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "homepage": "https://github.com/rvagg/node-level-mapped-index",
   "authors": [
     "Rod Vagg <rod@vagg.org> (https://github.com/rvagg)"
@@ -18,7 +18,7 @@
     "url": "https://github.com/rvagg/node-level-mapped-index.git"
   },
   "dependencies": {
-    "map-reduce": "~4.0.0",
+    "map-reduce": "~6.0.0",
     "xtend": "~2.1.1",
     "through2": "~0.2.1"
   },
