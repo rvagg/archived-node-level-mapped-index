@@ -43,7 +43,7 @@ levelup('/tmp/foo.db', function (err, db) {
 
 In this example we're using the `registerIndex()` method to register two indexes. You must supply an index name (String) and a function that will parse and register individual entries for this index. Your function receives the key and the value of the entry and an `emit()` function. You call `emit()` with a single argument, the property for this entry that you are indexing on. The `emit()` function *does not need to be called* for each entry, only entries relevant to your index.
 
-Note that the register method has the signature: <b><code>registerIndex([ mapDb, ] indexName, indexFn)</code></b>. So you can provide your own custom *sublevel* or even a totally separate LevelUP instance to store the indexing data if that suits your needs (perhaps you're a little OCD about polluting your main store with map-reduce & index cruft?)
+~~Note that the register method has the signature: <b><code>registerIndex([ mapDb, ] indexName, indexFn)</code></b>. So you can provide your own custom *sublevel* or even a totally separate LevelUP instance to store the indexing data if that suits your needs (perhaps you're a little OCD about polluting your main store with map-reduce & index cruft?)~~
 
 Now we put some values into our database:
 

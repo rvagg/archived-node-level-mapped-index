@@ -1,6 +1,7 @@
 const mapReduce       = require('map-reduce')
     , xtend           = require('xtend')
     , through2        = require('through2')
+    , bytewise        = require('bytewise')
 
 var mapReducePrefix = 'mi/'
 
@@ -34,7 +35,12 @@ function indexedStream (db, indexName, key, options) {
   if (!options)
     options = {}
 
-  options = xtend(options || {}, { range: [ String(key), '' ] })
+  var start = encode(key);
+  options = xtend(options || {}, {
+    start: start,
+    // strip 0000 (end of string + end of array)
+    end: start.substring(0, start.length - 4) + '~'
+  })
 
   var stream = db._mappedIndexes[indexName]
     .createReadStream(options)
@@ -82,6 +88,14 @@ function setup (db, opts) {
   }
 
   return db
+}
+
+// this is the key encoding scheme used by map-reduce 6.0
+function encode(key) {
+  if(!Array.isArray(key)) {
+    key = [String(key)]
+  }
+  return bytewise.encode([2].concat(key)).toString('hex')
 }
 
 module.exports = setup
