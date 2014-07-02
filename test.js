@@ -10,7 +10,7 @@ function writeTestData (db, cb) {
   db.put('foo1', JSON.stringify({'one':'ONE','key':'1'}), cb)
   db.put('foo2', JSON.stringify({'two':'TWO','key':'2','bleh':true}), cb)
   db.put('foo3', JSON.stringify({'three':'THREE','key':'3','bleh':true}), cb)
-  db.put('foo4', JSON.stringify({'four':'FOUR','key':'4'}), cb)
+  db.put('foo14', JSON.stringify({'fourteen':'FOURTEEN','key':'14'}), cb)
 }
 
 function verifyGetBy (t, db, cb) {
@@ -87,7 +87,9 @@ test('test simple index', function (t) {
     t.notOk(err, 'no error')
 
     db = sublevel(db)
-    db = mappedIndex(db)
+    db = mappedIndex(db, {
+      mapReducePrefix: 'by!'
+    })
 
     var end = after(4, function () {
           rimraf(location, t.end.bind(t))
