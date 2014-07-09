@@ -35,11 +35,18 @@ function indexedStream (db, indexName, key, options) {
   if (!options)
     options = {}
 
-  var start = encode(key);
+  var start = encode(key)
+  // strip 00 (end of array)
+  var end = start.substring(0, start.length - 2) + '~'
+
+  if (options.substringMatch) {
+    // strip 0000 (end of string + end of array)
+    end = start.substring(0, start.length - 4) + '~'
+  }
+
   options = xtend(options || {}, {
     start: start,
-    // strip 00 (end of array)
-    end: start.substring(0, start.length - 2) + '~'
+    end: end
   })
 
   var stream = db._mappedIndexes[indexName]
