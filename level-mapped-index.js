@@ -66,9 +66,13 @@ function indexedStream (db, indexName, key, options) {
   return stream
 }
 
-function getBy (db, indexName, key, callback) {
+function getBy (db, indexName, key, options, callback) {
   var data = []
-  db.createIndexedStream(indexName, key)
+  if (typeof options === 'function') {
+    callback = options
+    options = {}
+  }
+  db.createIndexedStream(indexName, key, options)
     .on('data', function (_data) {
       data.push(_data)
     })
